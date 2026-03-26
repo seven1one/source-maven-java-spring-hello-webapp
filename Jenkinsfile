@@ -3,8 +3,6 @@ pipeline {
         label 'jenkins-node'
     }
 
-    triggers {
-        pollSCM('* * * * *')
     }
 
     stages {
