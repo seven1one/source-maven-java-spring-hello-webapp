@@ -31,6 +31,7 @@ pipeline {
         '''
     }
   }
+
   stages {
     stage('Checkout') {
       steps {
@@ -39,6 +40,7 @@ pipeline {
         }
       }
     }
+
     stage('Build') {
       steps {
         container('maven') {
@@ -46,6 +48,7 @@ pipeline {
         }
       }
     }
+
     stage('Test') {
       steps {
         container('maven') {
@@ -53,10 +56,11 @@ pipeline {
         }
       }
     }
+
     stage('Build & Tag & Push Docker Image') {
       steps {
         container('kaniko') {
-          sh 'executor --context=dir://$WORKSPACE --destination=seven1one/webapp:$BUILD_NUMBER --destination=seven1one/webapp:latest'
+          sh "executor --context=dir://${env.WORKSPACE} --dockerfile=${env.WORKSPACE}/Dockerfile --destination=seven1one/webapp:${env.BUILD_NUMBER} --destination=seven1one/webapp:latest"
         }
       }
     }
